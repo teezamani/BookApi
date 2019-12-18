@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using dotNetCoreAPI.Model;
+using dotNetCoreAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -31,6 +32,9 @@ namespace dotNetCoreAPI
                      ("CoreApiConnection")));
 
             services.AddMvc();
+            services.AddHttpClient();
+
+            services.AddScoped<ICountryRepository, CountryRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,17 +45,16 @@ namespace dotNetCoreAPI
                 app.UseDeveloperExceptionPage();
             }
 
-           // app.UseRouting();
+              app.UseRouting();
 
-            /* app.UseEndpoints(endpoints =>
+             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapControllerRoute(
+                   name: "default",
+                   pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-            */
-           // context.SeedDataContext();
+            
+            // context.SeedDataContext();
          
         
         }

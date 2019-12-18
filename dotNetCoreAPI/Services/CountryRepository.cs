@@ -8,7 +8,7 @@ namespace dotNetCoreAPI.Services
 {
     public class CountryRepository : ICountryRepository
     {
-        private AppDbContext _countryContext;
+        private readonly AppDbContext _countryContext;
 
         public CountryRepository(AppDbContext countryContext)
         {
