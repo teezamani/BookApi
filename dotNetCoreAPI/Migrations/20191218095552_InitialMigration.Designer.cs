@@ -10,8 +10,8 @@ using dotNetCoreAPI.Model;
 namespace dotNetCoreAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20191218084057_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20191218095552_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
