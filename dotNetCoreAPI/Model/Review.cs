@@ -11,5 +11,7 @@ namespace dotNetCoreAPI.Model
         public string HeadLine { get; set; }
         public string ReviewTest { get; set; }
         public int Rating { get; set; }
+        public virtual Reviewer Reviewer { get; set; }
+        public virtual Book Book { get; set; }
     }
 }
