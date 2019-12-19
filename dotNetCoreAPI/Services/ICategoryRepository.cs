@@ -11,7 +11,7 @@ namespace dotNetCoreAPI.Services
         ICollection<Category> GetCategories();
         Category GetCategory(int categoryId);
         ICollection<Category> GetCategoriesOfABook(int bookId);
-        ICollection<Category> GetAllBooksForACategory(int categoryId);
+        ICollection<Category> GetAllCategoriesForABook(int categoryId);
         bool CategoryExists(int categoryId);
 
     }
