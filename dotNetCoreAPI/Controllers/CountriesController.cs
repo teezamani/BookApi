@@ -91,5 +91,37 @@ namespace dotNetCoreAPI.Controllers
         }
 
         //TO DO GETAUTHORS FROM A COUNTRY
+
+        //api/countries/countryId/authors
+        [HttpGet("{countryId}/authors")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(200, Type = typeof(AuthorDto))]
+        public IActionResult GetAuthorsFromACountry(int countryId)
+        {
+            if (!_countryRepository.CountryExists(countryId))
+                return NotFound();
+
+            var authors = _countryRepository.GetAuthorsFromACountry(countryId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var authorsDto = new List<AuthorDto>();
+
+            foreach (var author in authors)
+            {
+                authorsDto.Add(new AuthorDto
+                {
+                    Id = author.Id,
+                    FirstName = author.FirstName,
+                    LastName = author.LastName
+                });
+
+            }
+
+            return Ok(authorsDto);
+
+        }
     }
 }
