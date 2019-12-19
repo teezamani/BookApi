@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using dotNetCoreAPI.Dtos;
 using dotNetCoreAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,10 +19,24 @@ namespace dotNetCoreAPI.Controllers
 
         //api/countries
         [HttpGet]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(200,Type =typeof(IEnumerable<CountryDto>))]
         public IActionResult GetCountries()
         {
             var countries = _countryRepository.GetCountries().ToList();
-            return Ok(countries);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var countriesDto = new List<CountryDto>();
+            foreach (var country in countries)
+            {
+                countriesDto.Add(new CountryDto
+                {
+                    Id = country.Id,
+                    Name = country.Name
+                });
+            }
+            return Ok(countriesDto);
         }
     }
 }
