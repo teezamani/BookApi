@@ -26,6 +26,7 @@ namespace dotNetCoreAPI.Controllers
         public IActionResult GetCategories()
         {
             var categories = _categoryRepository.GetCategories();
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -39,6 +40,32 @@ namespace dotNetCoreAPI.Controllers
                 });
             }
             return Ok(categoriesDto);
+        }
+
+
+        //api/categories/Id
+        [HttpGet("{categoryId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(200, Type = typeof(CategoryDto))]
+        public IActionResult GetCategory(int categoryId)
+        {
+            if (!_categoryRepository.CategoryExists(categoryId))
+                return NotFound();
+
+            var category = _categoryRepository.GetCategory(categoryId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var categoryDto = new CategoryDto()
+                          
+                {
+                    Id = category.Id,
+                    Name = category.Name
+                };
+        
+            return Ok(categoryDto);
         }
     }
 }
