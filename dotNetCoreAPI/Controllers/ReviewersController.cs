@@ -100,7 +100,7 @@ namespace dotNetCoreAPI.Controllers
 
             return Ok(reviewsDto);
         }
-        //But we can only test after we Implement IReviewRepository
+       
         // To Get Reviewer of a review
         //api/reviewers/reviewId/reviewer
         [HttpGet("{reviewId}/reviewer")]

@@ -72,7 +72,7 @@ namespace dotNetCoreAPI.Controllers
             return Ok(reviewDto);
         }
 
-        //But we can only test after we Implement IReviewRepository
+        //But we can only test after we Implement IBookRepository
         //api/reviews/bookId/reviews
         [HttpGet("{bookId}/reviews")]
         [ProducesResponseType(400)]
@@ -103,7 +103,7 @@ namespace dotNetCoreAPI.Controllers
             return Ok(reviewsDto);
         }
 
-        //api/review/reviewId/book
+        //api/reviews/reviewId/book
         [HttpGet("{reviewId}/book")]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
