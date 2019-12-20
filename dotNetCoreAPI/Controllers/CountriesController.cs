@@ -112,7 +112,7 @@ namespace dotNetCoreAPI.Controllers
             foreach (var author in authors)
             {
                 authorsDto.Add(new AuthorDto
-                {
+                { 
                     Id = author.Id,
                     FirstName = author.FirstName,
                     LastName = author.LastName
