@@ -11,7 +11,7 @@ namespace dotNetCoreAPI.Services
         ICollection<Review> GetReviews();
         Review GetReview(int reviewId);
         ICollection<Review> GetAllReviewsOfABook(int bookId);
-        Review GetBookOfAReview(int reviewId);
+        Book GetBookOfAReview(int reviewId);
         bool ReviewExists(int reviewId);
     }
 }
