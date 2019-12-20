@@ -12,10 +12,12 @@ namespace dotNetCoreAPI.Controllers
     [ApiController]
     public class CategoriesController : Controller
     {
-        private readonly ICategoryRepository _categoryRepository;
-        public CategoriesController(ICategoryRepository categoryRepository)
+        private ICategoryRepository _categoryRepository;
+        private IBookRepository _bookRepository;
+        public CategoriesController(ICategoryRepository categoryRepository, IBookRepository bookRepository)
         {
             _categoryRepository = categoryRepository;
+            _bookRepository = bookRepository;
         }
 
 
@@ -68,7 +70,7 @@ namespace dotNetCoreAPI.Controllers
             return Ok(categoryDto);
         }
 
-
+        //TO DO- we can only test wen we implement the IBookRepository
         //api/categories/books/bookId
         [HttpGet("books/{bookId}")]
         [ProducesResponseType(400)]
@@ -76,7 +78,8 @@ namespace dotNetCoreAPI.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<CategoryDto>))]
         public IActionResult GetAllCategoriesForABook(int bookId)
         {
-            //TO DO Validate the book exists
+            if (!_bookRepository.BookExists(bookId))
+                return NotFound();
 
             var categories = _categoryRepository.GetAllCategoriesForABook(bookId);
 

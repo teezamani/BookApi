@@ -11,10 +11,12 @@ namespace dotNetCoreAPI.Controllers
     [Route("api/[controller]")]
     public class CountriesController : Controller
     {
-        private readonly ICountryRepository _countryRepository;
-        public CountriesController(ICountryRepository countryRepository)
+        private  ICountryRepository _countryRepository;
+        private IAuthorRepository _authorRepository;
+        public CountriesController(ICountryRepository countryRepository, IAuthorRepository authorRepository)
         {
             _countryRepository = countryRepository;
+            _authorRepository = authorRepository;
         }
 
         //api/countries
@@ -64,7 +66,7 @@ namespace dotNetCoreAPI.Controllers
             return Ok(countryDto);
         }
 
-
+        //TODO - we can only test after we implement the !AuthorRepository
         //api/countries/authors/authorId
         [HttpGet("authors/{authorId}")]
         [ProducesResponseType(400)]
@@ -72,7 +74,10 @@ namespace dotNetCoreAPI.Controllers
         [ProducesResponseType(200, Type = typeof(CountryDto))]
         public IActionResult GetCountryOfAnAuthor(int authorId)
         {
-            //TODO Validate the Author exists
+          
+            if (!_authorRepository.AuthorExists(authorId))
+                return NotFound();
+
 
             var country = _countryRepository.GetCountryOfAnAuthor(authorId);
 
