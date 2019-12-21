@@ -66,7 +66,6 @@ namespace dotNetCoreAPI.Controllers
             return Ok(countryDto);
         }
 
-        //TODO - we can only test after we implement the !AuthorRepository
         //api/countries/authors/authorId
         [HttpGet("authors/{authorId}")]
         [ProducesResponseType(400)]
@@ -95,7 +94,6 @@ namespace dotNetCoreAPI.Controllers
             return Ok(countryDto);
         }
 
-        //TO DO GETAUTHORS FROM A COUNTRY
 
         //api/countries/countryId/authors
         [HttpGet("{countryId}/authors")]

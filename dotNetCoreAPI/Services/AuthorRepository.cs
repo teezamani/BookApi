@@ -25,7 +25,7 @@ namespace dotNetCoreAPI.Services
             return _authorContext.BookAuthors.Where(b => b.BookId == bookId).Select(a => a.Author).ToList();
         }
 
-        public ICollection<Book> GetAllBookOfAAuthor(int authorId)
+        public ICollection<Book> GetAllBooksOfAAuthor(int authorId)
         {
             return _authorContext.BookAuthors.Where(a => a.AuthorId== authorId).Select(b => b.Book).ToList();
         }
