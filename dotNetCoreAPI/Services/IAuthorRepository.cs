@@ -11,7 +11,7 @@ namespace dotNetCoreAPI.Services
         ICollection<Author> GetAuthors();
         Author GetAuthor(int authorId);
         ICollection<Author> GetAllAuthorsOfABook(int bookId);
-        Author GetBookOfAAuthor(int authorId);
+        ICollection<Book> GetAllBookOfAAuthor(int authorId);
         bool AuthorExists(int AuthorId);
     }
 }
