@@ -70,7 +70,7 @@ namespace dotNetCoreAPI.Controllers
             return Ok(categoryDto);
         }
 
-        //TO DO- we can only test wen we implement the IBookRepository
+        
         //api/categories/books/bookId
         [HttpGet("books/{bookId}")]
         [ProducesResponseType(400)]

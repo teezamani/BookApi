@@ -72,9 +72,9 @@ namespace dotNetCoreAPI.Controllers
             return Ok(reviewDto);
         }
 
-        //But we can only test after we Implement IBookRepository
-        //api/reviews/bookId/reviews
-        [HttpGet("{bookId}/reviews")]
+      
+        //api/reviews/books/bookId
+        [HttpGet("{books}/bookId")]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(200, Type = typeof(IEnumerable<ReviewDto>))]

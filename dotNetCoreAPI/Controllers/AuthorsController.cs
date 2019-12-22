@@ -103,7 +103,7 @@ namespace dotNetCoreAPI.Controllers
 
         }
 
-        //TO DO- we can only test wen we implement the IBookRepository
+
         //api/authors/books/bookId
         [HttpGet("books/{bookId}")]
         [ProducesResponseType(400)]

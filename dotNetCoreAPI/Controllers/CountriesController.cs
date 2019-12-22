@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace dotNetCoreAPI.Controllers
 {
     [Route("api/[controller]")]
+    [ApiController]
     public class CountriesController : Controller
     {
         private  ICountryRepository _countryRepository;
