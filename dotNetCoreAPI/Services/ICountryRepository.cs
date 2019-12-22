@@ -13,5 +13,6 @@ namespace dotNetCoreAPI.Services
         Country GetCountryOfAnAuthor(int authorId);
         ICollection<Author> GetAuthorsFromACountry(int countryId);
         bool CountryExists(int countryId);
+        bool isDuplicateCountryName(int countryId, string countryName);
     }
 }
