@@ -15,6 +15,11 @@ namespace dotNetCoreAPI.Services
         ICollection<Book> GetAllBooksForACategory(int categoryId);
         bool CategoryExists(int categoryId);
         bool isDuplicateCategoryName(int categoryId, string categoryName);
-    
+
+        bool CreateCategory(Category category);
+        bool UpdateCountry(Category category);
+        bool DeleteCategory(Category category);
+        bool Save();
+
     }
 }
