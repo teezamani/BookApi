@@ -21,6 +21,18 @@ namespace dotNetCoreAPI.Services
             return _categoryContext.Categories.Any(c => c.Id == categoryId);
         }
 
+        public bool CreateCategory(Category category)
+        {
+            _categoryContext.Add(category);
+            return Save();
+        }
+
+        public bool DeleteCategory(Category category)
+        {
+            _categoryContext.Remove(category);
+            return Save();
+        }
+
         public ICollection<Book> GetAllBooksForACategory(int categoryId)
         {
             return _categoryContext.BookCategories.Where(c => c.CategoryId == categoryId).Select(b => b.Book).ToList();
@@ -46,6 +58,18 @@ namespace dotNetCoreAPI.Services
             var category = _categoryContext.Categories.Where(c => c.Name.Trim().ToUpper() == categoryName.Trim().ToUpper() && c.Id != categoryId).FirstOrDefault();
 
             return category == null ? false : true;
+        }
+
+        public bool Save()
+        {
+            var saved = _categoryContext.SaveChanges();
+            return saved >= 0 ? true : false;
+        }
+
+        public bool UpdateCountry(Category category)
+        {
+            _categoryContext.Update(category);
+            return Save();
         }
     }
 }
