@@ -162,6 +162,43 @@ namespace dotNetCoreAPI.Controllers
             return CreatedAtRoute("GetCountry", new { countryId = countryToCreate.Id}, countryToCreate);
         }
 
+        //api/countries/countryId
+        [HttpPut("{countryId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(422)]
+        [ProducesResponseType(500)]
+        [ProducesResponseType(204)]//No Content
+        public IActionResult UpdateCountry(int countryId,[FromBody]Country updatedCountryInfo)
+        {
+            if (updatedCountryInfo == null)
+                return BadRequest(ModelState);
+
+            if (countryId != updatedCountryInfo.Id)
+                return BadRequest(ModelState);
+
+            if (!_countryRepository.CountryExists(countryId))
+                return NotFound();
+
+            if(_countryRepository.isDuplicateCountryName(countryId, updatedCountryInfo.Name))
+            {
+                ModelState.AddModelError("",$"Country {updatedCountryInfo.Name} already exists");
+                return StatusCode(422, $"Country {updatedCountryInfo.Name} already exists");
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_countryRepository.UpdateCountry(updatedCountryInfo))
+            {
+                ModelState.AddModelError("", $"Something went wrong saving {updatedCountryInfo.Name}");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
+
 
     }
 }
+ 
