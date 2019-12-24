@@ -203,7 +203,6 @@ namespace dotNetCoreAPI.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(409)]
-        [ProducesResponseType(422)]
         [ProducesResponseType(500)]
         [ProducesResponseType(204)]//No Content
         public IActionResult DeleteCountry(int countryId)

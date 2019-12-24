@@ -1,4 +1,5 @@
 ﻿using dotNetCoreAPI.Dtos;
+using dotNetCoreAPI.Model;
 using dotNetCoreAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -46,7 +47,7 @@ namespace dotNetCoreAPI.Controllers
 
 
         //api/categories/Id
-        [HttpGet("{categoryId}")]
+        [HttpGet("{categoryId}", Name = "GetCategory")]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(200, Type = typeof(CategoryDto))]
@@ -135,6 +136,110 @@ namespace dotNetCoreAPI.Controllers
 
             return Ok(booksDto);
 
+        }
+
+        //api/categories
+        [HttpPost]
+        [ProducesResponseType(201, Type = typeof(Category))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(422)]
+        [ProducesResponseType(500)]
+        public IActionResult CreateCategory([FromBody]Category categoryToCreate)
+        {
+            if (categoryToCreate == null)
+                return BadRequest(ModelState);
+
+            var category = _categoryRepository.GetCategories()
+                .Where(c => c.Name.Trim().ToUpper() == categoryToCreate.Name
+                .Trim().ToUpper()).FirstOrDefault();
+
+            if (category != null)
+            {
+                ModelState.AddModelError("", $"Category { categoryToCreate.Name } already exists");
+                return StatusCode(422, $"Category { categoryToCreate.Name } already exists");
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_categoryRepository.CreateCategory(categoryToCreate))
+            {
+                ModelState.AddModelError("", $"Something went wrong saving {categoryToCreate.Name}");
+                return StatusCode(500, ModelState);
+            }
+
+            return CreatedAtRoute("GetCategory", new { categoryId = categoryToCreate.Id }, categoryToCreate);
+        }
+
+        //api/categories/categoryId
+        [HttpPut("{categoryId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(422)]
+        [ProducesResponseType(500)]
+        [ProducesResponseType(204)]//No Content
+        public IActionResult UpdateCategory(int categoryId, [FromBody]Category updatedCategoryInfo)
+        {
+            if (updatedCategoryInfo == null)
+                return BadRequest(ModelState);
+
+            if (categoryId != updatedCategoryInfo.Id)
+                return BadRequest(ModelState);
+
+            if (!_categoryRepository.CategoryExists(categoryId))
+                return NotFound();
+
+            if (_categoryRepository.isDuplicateCategoryName(categoryId, updatedCategoryInfo.Name))
+            {
+                ModelState.AddModelError("", $"Category {updatedCategoryInfo.Name} already exists");
+                return StatusCode(422, $"Category {updatedCategoryInfo.Name} already exists");
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_categoryRepository.UpdateCategory(updatedCategoryInfo))
+            {
+                ModelState.AddModelError("", $"Something went wrong saving {updatedCategoryInfo.Name}");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
+
+        //api/categories/categoryId
+        [HttpDelete("{categoryId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(409)]
+        [ProducesResponseType(500)]
+        [ProducesResponseType(204)]//No Content
+        public IActionResult DeleteCategory(int categoryId)
+        {
+            if (!_categoryRepository.CategoryExists(categoryId))
+                return NotFound();
+
+            var categoryToDelete = _categoryRepository.GetCategory(categoryId);
+
+            if (_categoryRepository.GetAllBooksForACategory(categoryId).Count() > 0)
+            {
+                ModelState.AddModelError("", $"Category {categoryToDelete.Name}" +
+                    $" cannot be deleted because it is used by at least one author");
+                return StatusCode(409, $"Category {categoryToDelete.Name}" +
+                    $" cannot be deleted because it is used by at least one book");
+            }
+
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_categoryRepository.DeleteCategory(categoryToDelete))
+            {
+                ModelState.AddModelError("", $"Something went wrong saving {categoryToDelete.Name}");
+                return StatusCode(500, $"Something went wrong saving {categoryToDelete.Name}");
+            }
+
+            return NoContent();
         }
     }
 }

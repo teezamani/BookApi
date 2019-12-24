@@ -66,7 +66,7 @@ namespace dotNetCoreAPI.Services
             return saved >= 0 ? true : false;
         }
 
-        public bool UpdateCountry(Category category)
+        public bool UpdateCategory(Category category)
         {
             _categoryContext.Update(category);
             return Save();

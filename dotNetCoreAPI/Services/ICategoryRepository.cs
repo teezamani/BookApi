@@ -17,7 +17,7 @@ namespace dotNetCoreAPI.Services
         bool isDuplicateCategoryName(int categoryId, string categoryName);
 
         bool CreateCategory(Category category);
-        bool UpdateCountry(Category category);
+        bool UpdateCategory(Category category);
         bool DeleteCategory(Category category);
         bool Save();
 
