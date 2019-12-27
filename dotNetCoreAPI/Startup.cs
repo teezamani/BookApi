@@ -31,7 +31,9 @@ namespace dotNetCoreAPI
                  options.UseSqlServer(Configuration.GetConnectionString
                      ("CoreApiConnection")));
 
-            services.AddMvc();
+            services.AddMvc()
+                    .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling =
+                    Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddHttpClient();
 
             services.AddScoped<ICountryRepository, CountryRepository>();
