@@ -28,6 +28,12 @@ namespace dotNetCoreAPI.Services
 
         }
 
+        public bool DeleteReviews(List<Review> reviews)
+        {
+            _reviewContext.RemoveRange(reviews);
+            return Save();
+        }
+
         public ICollection<Review> GetAllReviewsOfABook(int bookId)
         {
             return _reviewContext.Reviews.Where(b => b.Book.Id == bookId).ToList();
