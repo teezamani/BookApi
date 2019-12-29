@@ -20,6 +20,18 @@ namespace dotNetCoreAPI.Services
             return _authorContext.Authors.Any(c => c.Id == authorId);
         }
 
+        public bool CreateAuthor(Author author)
+        {
+            _authorContext.Add(author);
+            return Save();
+        }
+
+        public bool DeleteAuthor(Author author)
+        {
+            _authorContext.Remove(author);
+            return Save();
+        }
+
         public ICollection<Author> GetAllAuthorsOfABook(int bookId)
         {
             return _authorContext.BookAuthors.Where(b => b.BookId == bookId).Select(a => a.Author).ToList();
@@ -38,6 +50,18 @@ namespace dotNetCoreAPI.Services
         public ICollection<Author> GetAuthors()
         {
             return _authorContext.Authors.OrderBy(a => a.LastName).ToList();
+        }
+
+        public bool Save()
+        {
+            var saved = _authorContext.SaveChanges();
+            return saved >= 0 ? true : false;
+        }
+
+        public bool UpdateAuthor(Author author)
+        {
+            _authorContext.Update(author);
+            return Save();
         }
     }
 }
