@@ -11,7 +11,7 @@ namespace dotNetCoreAPI.Model
         public AppDbContext(DbContextOptions<AppDbContext> options) :
            base(options)
         {
-            Database.Migrate();
+          //  Database.Migrate();
         }
 
         public virtual DbSet<Author> Authors { get; set; }
