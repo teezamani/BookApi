@@ -170,7 +170,7 @@ namespace dotNetCoreAPI.Controllers
 
 
         //api/authors/authorId
-        [HttpPut]
+        [HttpPut("{authorId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
