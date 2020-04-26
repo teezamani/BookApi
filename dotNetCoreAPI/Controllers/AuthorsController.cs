@@ -29,22 +29,30 @@ namespace dotNetCoreAPI.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<AuthorDto>))]
         public IActionResult GetAuthors()
         {
-            var authors = _authorRepository.GetAuthors();
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var authorsDto = new List<AuthorDto>();
-            foreach (var author in authors)
+            try
             {
-                authorsDto.Add(new AuthorDto
+                var authors = _authorRepository.GetAuthors();
+
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var authorsDto = new List<AuthorDto>();
+                foreach (var author in authors)
                 {
-                    Id = author.Id,
-                    FirstName = author.FirstName,
-                    LastName = author.LastName
-                });
+                    authorsDto.Add(new AuthorDto
+                    {
+                        Id = author.Id,
+                        FirstName = author.FirstName,
+                        LastName = author.LastName
+                    });
+                }
+                return Ok(authorsDto);
             }
-            return Ok(authorsDto);
+            catch (Exception)
+            {
+
+                return StatusCode(500, "We are currently working on the Error");
+            }
         }
 
         //api/authors/authorId
